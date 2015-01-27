@@ -1,0 +1,45 @@
+
+
+apply plugin: 'com.android.library'
+apply plugin: 'signing'
+
+boolean isReleaseBuild() {
+    return !VERSION_NAME.endsWith("-SNAPSHOT")
+}
+
+group = GROUP
+version = VERSION_NAME
+if (isReleaseBuild()) {
+    status = 'release'
+} else {
+    status = 'debug'
+}
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
+
+    defaultConfig {
+        minSdkVersion 13
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+}
+
+
+apply from: 'maven_push.gradle'
